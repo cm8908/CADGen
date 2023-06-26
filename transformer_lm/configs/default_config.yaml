@@ -1,0 +1,28 @@
+# Model architectures
+dim_emb: 256
+dim_ff: 512
+num_layers: 4
+num_heads: 8
+dropout: 0.1
+attn_dropout: 0.1
+vocab_size: 4012
+num_context: 500
+trunc_and_reshape: False
+return_probs: True
+
+# training
+data_dir: "../datasets/cad_data/cad_seq/BRepCheck/"
+batch_size: 256
+num_epochs: 100
+device_id: 2
+grad_clip: 1
+val_interval: 100
+bptt: -1
+
+# Logging
+project: "transformer_lm"
+exp_name: "default"
+exp_note: "this is a default configuration in order for debugging"
+exp_tags: [ "debug" ]
+log_interval: 1
+ckpt_dir: "../models"
