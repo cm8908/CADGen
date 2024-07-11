@@ -8,3 +8,8 @@ Example run:
 python transformer_lm/train.py
 ```
 
+You can create your own config file and run with `hydra` like the following:
+```bash
+python transformer_lm/train.py --config-path=your-config-path --config-name=your-config-filename
+```
+
