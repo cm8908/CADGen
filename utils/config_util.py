@@ -1,4 +1,5 @@
 import yaml, os, torch, wandb
+from dotenv import load_dotenv
 
 class Config(dict):
     __getattr__ = dict.__getitem__
@@ -6,6 +7,7 @@ class Config(dict):
     __delattr__ = dict.__delitem__
 
     def __init__(self, path, type='yaml'):
+        load_dotenv()
         self.path = path
         fp = open(path, 'r')
         if type == 'yaml':
@@ -16,7 +18,7 @@ class Config(dict):
         self.setup_logger()
 
     def setup_logger(self):
-        wandb.login(key='5c6c600b5c9e88924902fda42a2d12e143552e0d')  # ![Caution]!
+        wandb.login(key=os.getenv('WANDB_API_KEY'))  # ![Caution]!
         wandb.init(project=self.project,
                    name=self.exp_name,
                    notes=self.exp_note,
