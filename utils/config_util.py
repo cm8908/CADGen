@@ -6,16 +6,6 @@ class Config(dict):
     __setattr__ = dict.__setitem__
     __delattr__ = dict.__delitem__
 
-    # def __init__(self, path, type='yaml'):
-    #     load_dotenv()
-    #     self.path = path
-    #     fp = open(path, 'r')
-    #     if type == 'yaml':
-    #         dic = yaml.load(fp, Loader=yaml.FullLoader)
-    #     self.update(dic)
-    #     fp.close()
-    #     self.setup_device()
-    #     self.setup_logger()
     def __init__(self, cfg):
         load_dotenv()
         self.update(cfg)
