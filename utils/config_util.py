@@ -1,4 +1,4 @@
-import yaml, os, torch, wandb
+import yaml, os, torch, wandb, hydra
 from dotenv import load_dotenv
 
 class Config(dict):
@@ -6,18 +6,24 @@ class Config(dict):
     __setattr__ = dict.__setitem__
     __delattr__ = dict.__delitem__
 
-    def __init__(self, path, type='yaml'):
+    # def __init__(self, path, type='yaml'):
+    #     load_dotenv()
+    #     self.path = path
+    #     fp = open(path, 'r')
+    #     if type == 'yaml':
+    #         dic = yaml.load(fp, Loader=yaml.FullLoader)
+    #     self.update(dic)
+    #     fp.close()
+    #     self.setup_device()
+    #     self.setup_logger()
+    def __init__(self, cfg):
         load_dotenv()
-        self.path = path
-        fp = open(path, 'r')
-        if type == 'yaml':
-            dic = yaml.load(fp, Loader=yaml.FullLoader)
-        self.update(dic)
-        fp.close()
+        self.update(cfg)
         self.setup_device()
         self.setup_logger()
 
     def setup_logger(self):
+        print('Your WANDB_API_KEY:', os.getenv('WANDB_API_KEY'))
         wandb.login(key=os.getenv('WANDB_API_KEY'))  # ![Caution]!
         wandb.init(project=self.project,
                    name=self.exp_name,
@@ -47,6 +53,6 @@ class Config(dict):
 
 
 if __name__ == '__main__':
-    cfg = Config('transformer_lm/configs/default_config.yaml')
+    cfg = load_config()
     print(cfg)
     

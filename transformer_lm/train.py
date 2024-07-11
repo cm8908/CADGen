@@ -8,9 +8,15 @@ from utils.config_util import Config
 from utils.data_util import get_dataloader
 from utils.utils import AverageMeter, save_checkpoint
 from utils.macro import PAD_IDX
+import hydra
 
-
+@hydra.main(version_base=None, config_path='configs', config_name='default_config')
 def main(cfg):
+    # Load config
+    cfg = Config(cfg)
+    print(cfg)
+
+    
     train_loader = get_dataloader(cfg.data_dir, 'train', cfg.batch_size)
     val_loader = get_dataloader(cfg.data_dir, 'validation', cfg.batch_size)
     model = LanguageModel(cfg).to(cfg.device)
@@ -88,10 +94,8 @@ def run_batch(cfg, batch, model: LanguageModel, criterion, optimizer, is_train=T
     return mean_loss.avg, mean_acc.avg
 
 if __name__ == '__main__':
-    cfg = Config('transformer_lm/configs/default_config.yaml')
-    print(cfg)
     try:
-        main(cfg)
+        main()
     except Exception as err:
         wandb.alert(
             title='Exception raised',
